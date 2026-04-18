@@ -28,11 +28,14 @@ if ! id "$APP_USER" >/dev/null 2>&1; then
 fi
 
 echo "==> Клонирование репозитория"
+mkdir -p "$APP_DIR"
+chown "$APP_USER:$APP_USER" "$APP_DIR"
 if [[ ! -d "$APP_DIR/.git" ]]; then
-  rm -rf "$APP_DIR"
+  # Чистим старое содержимое, но сам каталог сохраняем с правильным владельцем
+  find "$APP_DIR" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
   sudo -u "$APP_USER" git clone "$REPO_URL" "$APP_DIR"
 else
-  sudo -u "$APP_USER" git -C "$APP_DIR" pull
+  sudo -u "$APP_USER" git -C "$APP_DIR" pull --ff-only
 fi
 
 mkdir -p "$APP_DIR/data" "$APP_DIR/public/uploads"
