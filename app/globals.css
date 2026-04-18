@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Playfair Display", "Times New Roman", serif;
+}
+
+html,
+body {
+  background: #0A0A0B;
+  color: #FAFAF7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-image:
+    radial-gradient(1000px 500px at 80% -10%, rgba(255, 90, 31, 0.12), transparent 60%),
+    radial-gradient(800px 400px at -10% 20%, rgba(255, 195, 0, 0.08), transparent 60%);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-medium transition-all active:scale-[0.98];
+  }
+  .btn-primary {
+    @apply btn bg-ember text-midnight hover:bg-spark shadow-glow;
+  }
+  .btn-ghost {
+    @apply btn border border-white/20 text-clean hover:bg-white/5;
+  }
+  .chip {
+    @apply inline-flex items-center rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.18em] text-white/70;
+  }
+  .card {
+    @apply rounded-2xl border border-white/10 bg-graphite/60 backdrop-blur;
+  }
+  .hairline {
+    background-image: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    height: 1px;
+  }
+  .shimmer {
+    background: linear-gradient(90deg, rgba(255,90,31,0) 0%, rgba(255,195,0,0.5) 50%, rgba(255,90,31,0) 100%);
+    background-size: 200% 100%;
+  }
+}
+
+::selection {
+  background: #FF5A1F;
+  color: #0A0A0B;
+}

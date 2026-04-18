@@ -1,0 +1,219 @@
+import Link from "next/link";
+import { LeadForm } from "@/components/lead-form";
+import { listSections, listWorks } from "@/lib/db";
+
+export const dynamic = "force-dynamic";
+
+const values = [
+  {
+    title: "Реактивность",
+    body: "Скорость — наше главное преимущество. Решения внедряем здесь и сейчас, пока тренд жив.",
+  },
+  {
+    title: "Смелость",
+    body: "Риск в моменте оправдан результатом в будущем. Мы выбираем смелые ходы, а не тёплый компромисс.",
+  },
+  {
+    title: "Актуальность",
+    body: "Ловим контекст рынка, нерв соцсетей и технические инновации — не делаем маркетинг в вакууме.",
+  },
+  {
+    title: "Эстетика функционала",
+    body: "Красиво — мало. Сайт должен быть интуитивным, чтобы пользователь не споткнулся в моменте принятия решения.",
+  },
+];
+
+const services = [
+  {
+    kicker: "01",
+    title: "SMM & Контент",
+    body: "Контент, который заставляет остановить скролл. Реактивные форматы, рилсы, комьюнити-менеджмент.",
+  },
+  {
+    kicker: "02",
+    title: "Web-разработка",
+    body: "Платформы, где путь от интереса до покупки занимает секунды. Next.js, performance-бюджет, аналитика.",
+  },
+  {
+    kicker: "03",
+    title: "Performance",
+    body: "Находим вашу аудиторию в тот момент, когда она ищет решение. Управление бюджетом на результат.",
+  },
+  {
+    kicker: "04",
+    title: "Брендинг",
+    body: "Визуальный код, который запоминают с первого касания. От логотипа до гайдлайна тональности.",
+  },
+];
+
+const manifesto = [
+  "Лови момент",
+  "Захватывай рынок",
+  "Carpe Diem",
+  "Успеть вовремя",
+  "Стать легендой",
+  "Конвертируем мгновения в лояльность",
+];
+
+export default async function HomePage() {
+  const sections = listSections();
+  const featured = listWorks().slice(0, 6);
+
+  return (
+    <>
+      <section className="relative overflow-hidden">
+        <div className="mx-auto max-w-7xl px-6 pt-16 pb-24 md:pt-28 md:pb-36">
+          <div className="chip">
+            <span className="mr-2 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-ember" />
+            Carpe Diem · Digital Agency · 2026
+          </div>
+          <h1 className="mt-6 font-display text-5xl leading-[0.95] tracking-tight text-balance md:text-7xl lg:text-8xl">
+            Лови момент. <br />
+            <span className="italic text-ember">Захватывай</span> рынок.
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg text-white/70 md:text-xl">
+            Агентство полного цикла, которое создаёт бесшовный путь клиента: от первой искры в соцсетях до идеального финиша на сайте. Мы не ждём идеального момента — мы создаём его здесь и сейчас.
+          </p>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <Link href="#contact" className="btn-primary">
+              Обсудить проект →
+            </Link>
+            <Link href="/gallery" className="btn-ghost">
+              Посмотреть работы
+            </Link>
+          </div>
+
+          <div className="mt-16 grid grid-cols-2 gap-6 md:grid-cols-4">
+            {[
+              { k: "< 24 ч", v: "реакция на бриф" },
+              { k: "×3.4", v: "средний рост CTR" },
+              { k: "12+", v: "вертикалей в портфеле" },
+              { k: "100%", v: "прозрачная отчётность" },
+            ].map((s) => (
+              <div key={s.v} className="card p-5">
+                <div className="font-display text-3xl text-spark">{s.k}</div>
+                <div className="mt-1 text-xs uppercase tracking-[0.18em] text-white/60">{s.v}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="overflow-hidden border-y border-white/10 bg-midnight/60 py-5">
+          <div className="flex w-max animate-ticker gap-10 whitespace-nowrap font-display text-2xl italic text-white/50">
+            {[...manifesto, ...manifesto, ...manifesto].map((m, i) => (
+              <span key={i} className="flex items-center gap-10">
+                <span>{m}</span>
+                <span className="text-ember">✦</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="services" className="mx-auto max-w-7xl px-6 py-24">
+        <div className="flex items-end justify-between gap-6">
+          <div>
+            <span className="chip">Направления</span>
+            <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
+              Четыре направления. <span className="italic text-ember">Один поток.</span>
+            </h2>
+          </div>
+          <p className="hidden max-w-md text-sm text-white/60 md:block">
+            Сайт, контент и реклама — это единый поток. Мы стираем границы между разработкой и креативом.
+          </p>
+        </div>
+        <div className="mt-12 grid gap-4 md:grid-cols-2">
+          {services.map((s) => (
+            <article key={s.title} className="card group relative overflow-hidden p-8 transition hover:border-ember/50">
+              <div className="flex items-start justify-between">
+                <span className="font-display text-sm italic text-ember">{s.kicker}</span>
+                <span className="text-white/40 transition group-hover:translate-x-1 group-hover:text-ember">→</span>
+              </div>
+              <h3 className="mt-8 font-display text-3xl">{s.title}</h3>
+              <p className="mt-3 text-sm text-white/60">{s.body}</p>
+              <div className="hairline mt-8 shimmer animate-shimmer" />
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="values" className="border-y border-white/10 bg-graphite/40">
+        <div className="mx-auto max-w-7xl px-6 py-24">
+          <span className="chip">Ценности</span>
+          <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
+            Опоры бренда, на которых мы стоим.
+          </h2>
+          <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {values.map((v, i) => (
+              <div key={v.title} className="relative">
+                <div className="font-display text-6xl italic text-ember/30">0{i + 1}</div>
+                <h3 className="mt-2 font-display text-2xl">{v.title}</h3>
+                <p className="mt-3 text-sm text-white/60">{v.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-24">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <span className="chip">Галерея</span>
+            <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
+              Точки касания, которые сработали.
+            </h2>
+          </div>
+          <Link href="/gallery" className="btn-ghost">
+            Вся галерея →
+          </Link>
+        </div>
+        {featured.length === 0 ? (
+          <div className="mt-10 card p-10 text-center text-white/60">
+            Галерея пока пуста. Добавьте работы в{" "}
+            <Link href="/admin" className="text-ember underline">админке</Link>.
+          </div>
+        ) : (
+          <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {featured.map((w) => (
+              <Link
+                key={w.id}
+                href={`/gallery?section=${w.section_slug}`}
+                className="group relative overflow-hidden rounded-2xl border border-white/10"
+              >
+                <img
+                  src={w.image_url}
+                  alt={w.title}
+                  className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/40 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-5">
+                  <span className="chip">{w.section_title}</span>
+                  <h3 className="mt-2 font-display text-xl">{w.title}</h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section id="contact" className="mx-auto max-w-7xl px-6 py-24">
+        <div className="card grid gap-10 p-8 md:grid-cols-2 md:p-14">
+          <div>
+            <span className="chip">Контакты</span>
+            <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
+              Расскажите о задаче — <span className="italic text-ember">ответим за 24 часа.</span>
+            </h2>
+            <p className="mt-4 text-white/60">
+              Оставьте заявку — подберём подход и соберём команду под ваш проект. Без длинных бриф-пингов и водянистых предложений.
+            </p>
+            <div className="mt-8 space-y-2 text-sm text-white/70">
+              <div>✉ <a href="mailto:hello@carpediem.agency" className="hover:text-ember">hello@carpediem.agency</a></div>
+              <div>✦ <a href="https://t.me/carpediem_agency" className="hover:text-ember">@carpediem_agency</a></div>
+            </div>
+          </div>
+          <LeadForm />
+        </div>
+      </section>
+    </>
+  );
+}

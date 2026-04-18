@@ -1,0 +1,28 @@
+[Unit]
+Description=Carpe Diem Agency (Next.js)
+After=network.target
+
+[Service]
+Type=simple
+User=cdagency
+WorkingDirectory=/srv/cd-agency
+EnvironmentFile=/srv/cd-agency/.env.local
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=HOSTNAME=127.0.0.1
+Environment=NODE_OPTIONS=--experimental-sqlite
+ExecStart=/usr/bin/node node_modules/next/dist/bin/next start -p 3000 -H 127.0.0.1
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+
+# Harden
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/srv/cd-agency/data /srv/cd-agency/public/uploads /srv/cd-agency/.next
+
+[Install]
+WantedBy=multi-user.target

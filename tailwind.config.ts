@@ -1,0 +1,40 @@
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        midnight: "#0A0A0B",
+        graphite: "#161618",
+        ember: "#FF5A1F",
+        spark: "#FFC300",
+        clean: "#FAFAF7",
+      },
+      fontFamily: {
+        display: ["var(--font-display)", "serif"],
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+      },
+      boxShadow: {
+        glow: "0 0 0 1px rgba(255,90,31,.35), 0 20px 60px -20px rgba(255,90,31,.6)",
+      },
+      animation: {
+        shimmer: "shimmer 2.2s linear infinite",
+        ticker: "ticker 40s linear infinite",
+      },
+      keyframes: {
+        shimmer: {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
+        },
+        ticker: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+      },
+    },
+  },
+  plugins: [],
+};
+
+export default config;
