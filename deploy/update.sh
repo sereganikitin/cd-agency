@@ -7,8 +7,10 @@ APP_USER="cdagency"
 APP_DIR="/srv/cd-agency"
 
 cd "$APP_DIR"
-sudo -u "$APP_USER" git pull --ff-only
+git config --global --add safe.directory "$APP_DIR" || true
+git pull --ff-only
 sudo -u "$APP_USER" bash -lc "cd $APP_DIR && npm ci && npm run build"
+chown -R "$APP_USER:$APP_USER" "$APP_DIR"
 systemctl restart cd-agency
 systemctl status cd-agency --no-pager | head -20
 echo "✓ Обновлено."

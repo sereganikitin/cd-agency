@@ -28,18 +28,18 @@ if ! id "$APP_USER" >/dev/null 2>&1; then
 fi
 
 echo "==> Клонирование репозитория"
-mkdir -p "$APP_DIR"
-chown "$APP_USER:$APP_USER" "$APP_DIR"
-if [[ ! -d "$APP_DIR/.git" ]]; then
-  # Чистим старое содержимое, но сам каталог сохраняем с правильным владельцем
-  find "$APP_DIR" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
-  sudo -u "$APP_USER" git clone "$REPO_URL" "$APP_DIR"
+install -d -m 0755 /srv
+if [[ -d "$APP_DIR/.git" ]]; then
+  git -C "$APP_DIR" pull --ff-only
 else
-  sudo -u "$APP_USER" git -C "$APP_DIR" pull --ff-only
+  rm -rf "$APP_DIR"
+  git clone "$REPO_URL" "$APP_DIR"
 fi
 
 mkdir -p "$APP_DIR/data" "$APP_DIR/public/uploads"
 chown -R "$APP_USER:$APP_USER" "$APP_DIR"
+# Даём cdagency права на безопасное выполнение git внутри
+sudo -u "$APP_USER" git config --global --add safe.directory "$APP_DIR" || true
 
 echo "==> .env.local"
 if [[ ! -f "$APP_DIR/.env.local" ]]; then
