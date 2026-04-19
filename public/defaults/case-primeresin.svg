@@ -114,7 +114,7 @@
 
   <!-- Tag badges -->
   <g transform="translate(80 760)">
-    <rect width="150" height="30" rx="15" fill="none" stroke="#FAFAF7" stroke-width="1" opacity="0.4"/>
-    <text x="75" y="20" font-family="Inter, sans-serif" font-size="10" fill="#FAFAF7" text-anchor="middle" letter-spacing="2">SEO · ПЕРЕНОС · БЕЗ ПОТЕРЬ</text>
+    <rect width="300" height="34" rx="17" fill="none" stroke="#FAFAF7" stroke-width="1" opacity="0.5"/>
+    <text x="150" y="22" font-family="Inter, sans-serif" font-size="11" fill="#FAFAF7" text-anchor="middle" letter-spacing="2.2" font-weight="500">SEO · ПЕРЕНОС · БЕЗ ПОТЕРЬ</text>
   </g>
 </svg>
