@@ -8,7 +8,7 @@ export function SiteFooter() {
         <div className="md:col-span-2">
           <div className="flex items-center gap-2">
             <Logo className="h-8 w-8" />
-            <span className="font-display text-xl italic">
+            <span className="font-display text-xl">
               Carpe Diem <span className="text-ember">Agency</span>
             </span>
           </div>
@@ -37,7 +37,7 @@ export function SiteFooter() {
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-6 text-xs text-white/40 md:flex-row">
           <span>© {new Date().getFullYear()} Carpe Diem Agency. Все права защищены.</span>
-          <span className="font-display italic">Успеть вовремя. Стать легендой.</span>
+          <span className="font-display">Успеть вовремя. Стать легендой.</span>
         </div>
       </div>
     </footer>

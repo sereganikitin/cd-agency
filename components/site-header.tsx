@@ -7,7 +7,7 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2">
           <Logo className="h-8 w-8" />
-          <span className="font-display text-xl italic tracking-tight">
+          <span className="font-display text-xl tracking-tight">
             Carpe Diem <span className="text-ember">Agency</span>
           </span>
         </Link>

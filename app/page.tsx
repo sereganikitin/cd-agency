@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { LeadForm } from "@/components/lead-form";
-import { listSections, listWorks } from "@/lib/db";
+import { getSiteImageUrl, listSections, listWorks } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -28,21 +28,25 @@ const services = [
     kicker: "01",
     title: "SMM & Контент",
     body: "Контент, который заставляет остановить скролл. Реактивные форматы, рилсы, комьюнити-менеджмент.",
+    slot: "service-1",
   },
   {
     kicker: "02",
     title: "Web-разработка",
     body: "Платформы, где путь от интереса до покупки занимает секунды. Next.js, performance-бюджет, аналитика.",
+    slot: "service-2",
   },
   {
     kicker: "03",
     title: "Performance",
     body: "Находим вашу аудиторию в тот момент, когда она ищет решение. Управление бюджетом на результат.",
+    slot: "service-3",
   },
   {
     kicker: "04",
     title: "Брендинг",
     body: "Визуальный код, который запоминают с первого касания. От логотипа до гайдлайна тональности.",
+    slot: "service-4",
   },
 ];
 
@@ -56,12 +60,20 @@ const manifesto = [
 ];
 
 export default async function HomePage() {
-  const sections = listSections();
   const featured = listWorks().slice(0, 6);
+  const heroImg = getSiteImageUrl("hero");
+  const aboutImg = getSiteImageUrl("about");
+  const ctaImg = getSiteImageUrl("cta");
+  const serviceImgs = services.map((s) => getSiteImageUrl(s.slot));
 
   return (
     <>
       <section className="relative overflow-hidden">
+        <div
+          className="absolute inset-0 -z-10 bg-cover bg-center opacity-50"
+          style={{ backgroundImage: `url(${heroImg})` }}
+        />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-midnight/60 via-midnight/80 to-midnight" />
         <div className="mx-auto max-w-7xl px-6 pt-16 pb-24 md:pt-28 md:pb-36">
           <div className="chip">
             <span className="mr-2 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-ember" />
@@ -69,7 +81,7 @@ export default async function HomePage() {
           </div>
           <h1 className="mt-6 font-display text-5xl leading-[0.95] tracking-tight text-balance md:text-7xl lg:text-8xl">
             Лови момент. <br />
-            <span className="italic text-ember">Захватывай</span> рынок.
+            <span className="text-ember">Захватывай</span> рынок.
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-white/70 md:text-xl">
             Агентство полного цикла, которое создаёт бесшовный путь клиента: от первой искры в соцсетях до идеального финиша на сайте. Мы не ждём идеального момента — мы создаём его здесь и сейчас.
@@ -99,7 +111,7 @@ export default async function HomePage() {
         </div>
 
         <div className="overflow-hidden border-y border-white/10 bg-midnight/60 py-5">
-          <div className="flex w-max animate-ticker gap-10 whitespace-nowrap font-display text-2xl italic text-white/50">
+          <div className="flex w-max animate-ticker gap-10 whitespace-nowrap font-display text-2xl text-white/50">
             {[...manifesto, ...manifesto, ...manifesto].map((m, i) => (
               <span key={i} className="flex items-center gap-10">
                 <span>{m}</span>
@@ -115,7 +127,7 @@ export default async function HomePage() {
           <div>
             <span className="chip">Направления</span>
             <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
-              Четыре направления. <span className="italic text-ember">Один поток.</span>
+              Четыре направления. <span className="text-ember">Один поток.</span>
             </h2>
           </div>
           <p className="hidden max-w-md text-sm text-white/60 md:block">
@@ -123,15 +135,27 @@ export default async function HomePage() {
           </p>
         </div>
         <div className="mt-12 grid gap-4 md:grid-cols-2">
-          {services.map((s) => (
-            <article key={s.title} className="card group relative overflow-hidden p-8 transition hover:border-ember/50">
-              <div className="flex items-start justify-between">
-                <span className="font-display text-sm italic text-ember">{s.kicker}</span>
-                <span className="text-white/40 transition group-hover:translate-x-1 group-hover:text-ember">→</span>
+          {services.map((s, i) => (
+            <article
+              key={s.title}
+              className="card group relative overflow-hidden transition hover:border-ember/50"
+            >
+              <div className="aspect-[4/3] w-full overflow-hidden">
+                <img
+                  src={serviceImgs[i]}
+                  alt={s.title}
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                />
               </div>
-              <h3 className="mt-8 font-display text-3xl">{s.title}</h3>
-              <p className="mt-3 text-sm text-white/60">{s.body}</p>
-              <div className="hairline mt-8 shimmer animate-shimmer" />
+              <div className="p-8">
+                <div className="flex items-start justify-between">
+                  <span className="font-display text-sm text-ember">{s.kicker}</span>
+                  <span className="text-white/40 transition group-hover:translate-x-1 group-hover:text-ember">→</span>
+                </div>
+                <h3 className="mt-4 font-display text-3xl">{s.title}</h3>
+                <p className="mt-3 text-sm text-white/60">{s.body}</p>
+                <div className="hairline mt-8 shimmer animate-shimmer" />
+              </div>
             </article>
           ))}
         </div>
@@ -146,7 +170,7 @@ export default async function HomePage() {
           <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {values.map((v, i) => (
               <div key={v.title} className="relative">
-                <div className="font-display text-6xl italic text-ember/30">0{i + 1}</div>
+                <div className="font-display text-6xl text-ember/30">0{i + 1}</div>
                 <h3 className="mt-2 font-display text-2xl">{v.title}</h3>
                 <p className="mt-3 text-sm text-white/60">{v.body}</p>
               </div>
@@ -156,6 +180,23 @@ export default async function HomePage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-24">
+        <div className="grid gap-10 md:grid-cols-[1.1fr_1fr] md:items-center">
+          <div>
+            <span className="chip">Метафора</span>
+            <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
+              Бренд — это цепочка <span className="text-ember">точек касания.</span>
+            </h2>
+            <p className="mt-4 max-w-xl text-white/70">
+              Представьте искру: пользователь листает ленту и видит ваш пост, заходит на сайт и нажимает кнопку. Весь бизнес — это цепочка таких мгновений. Мы делаем каждое касание максимально точным.
+            </p>
+          </div>
+          <div className="overflow-hidden rounded-2xl border border-white/10">
+            <img src={aboutImg} alt="Точки касания" className="aspect-[3/2] w-full object-cover" />
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 pb-24">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <span className="chip">Галерея</span>
@@ -196,22 +237,29 @@ export default async function HomePage() {
         )}
       </section>
 
-      <section id="contact" className="mx-auto max-w-7xl px-6 py-24">
-        <div className="card grid gap-10 p-8 md:grid-cols-2 md:p-14">
-          <div>
-            <span className="chip">Контакты</span>
-            <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
-              Расскажите о задаче — <span className="italic text-ember">ответим за 24 часа.</span>
-            </h2>
-            <p className="mt-4 text-white/60">
-              Оставьте заявку — подберём подход и соберём команду под ваш проект. Без длинных бриф-пингов и водянистых предложений.
-            </p>
-            <div className="mt-8 space-y-2 text-sm text-white/70">
-              <div>✉ <a href="mailto:hello@carpediem.agency" className="hover:text-ember">hello@carpediem.agency</a></div>
-              <div>✦ <a href="https://t.me/carpediem_agency" className="hover:text-ember">@carpediem_agency</a></div>
+      <section id="contact" className="mx-auto max-w-7xl px-6 pb-24">
+        <div className="card relative overflow-hidden">
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-25"
+            style={{ backgroundImage: `url(${ctaImg})` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-midnight via-midnight/80 to-transparent" />
+          <div className="relative grid gap-10 p-8 md:grid-cols-2 md:p-14">
+            <div>
+              <span className="chip">Контакты</span>
+              <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
+                Расскажите о задаче — <span className="text-ember">ответим за 24 часа.</span>
+              </h2>
+              <p className="mt-4 text-white/70">
+                Оставьте заявку — подберём подход и соберём команду под ваш проект. Без длинных бриф-пингов и водянистых предложений.
+              </p>
+              <div className="mt-8 space-y-2 text-sm text-white/80">
+                <div>✉ <a href="mailto:hello@carpediem.agency" className="hover:text-ember">hello@carpediem.agency</a></div>
+                <div>✦ <a href="https://t.me/carpediem_agency" className="hover:text-ember">@carpediem_agency</a></div>
+              </div>
             </div>
+            <LeadForm />
           </div>
-          <LeadForm />
         </div>
       </section>
     </>

@@ -4,7 +4,15 @@
 
 :root {
   --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Playfair Display", "Times New Roman", serif;
+}
+
+.font-display {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+em, i, .italic {
+  font-style: normal;
 }
 
 html,

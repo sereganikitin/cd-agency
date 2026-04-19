@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
-const inter = Inter({ subsets: ["latin", "cyrillic"], variable: "--font-sans", display: "swap" });
-const playfair = Playfair_Display({
+const inter = Inter({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-display",
+  variable: "--font-sans",
   display: "swap",
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -25,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="ru" className={inter.variable}>
       <body className="min-h-screen flex flex-col">
         <SiteHeader />
         <main className="flex-1">{children}</main>

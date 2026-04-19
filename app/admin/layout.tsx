@@ -14,7 +14,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     <div className="mx-auto max-w-7xl px-6 py-10">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <Link href="/admin" className="font-display text-3xl italic">
+          <Link href="/admin" className="font-display text-3xl">
             Carpe Diem <span className="text-ember">Admin</span>
           </Link>
           <p className="mt-1 text-sm text-white/50">
@@ -25,6 +25,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <AdminLink href="/admin">Обзор</AdminLink>
           <AdminLink href="/admin/sections">Разделы</AdminLink>
           <AdminLink href="/admin/works">Работы</AdminLink>
+          <AdminLink href="/admin/images">Картинки</AdminLink>
           <AdminLink href="/admin/leads">Заявки</AdminLink>
           <Link href="/" className="px-3 py-1.5 text-white/60 hover:text-white">
             ↗ На сайт

@@ -12,7 +12,7 @@ const config: Config = {
         clean: "#FAFAF7",
       },
       fontFamily: {
-        display: ["var(--font-display)", "serif"],
+        display: ["var(--font-sans)", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
       },
       boxShadow: {

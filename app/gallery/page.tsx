@@ -22,11 +22,11 @@ export default async function GalleryPage({ searchParams }: Props) {
           <h1 className="mt-4 font-display text-5xl md:text-6xl text-balance">
             {activeSection ? (
               <>
-                Раздел: <span className="italic text-ember">{activeSection.title}</span>
+                Раздел: <span className="text-ember">{activeSection.title}</span>
               </>
             ) : (
               <>
-                Все <span className="italic text-ember">точки касания</span>
+                Все <span className="text-ember">точки касания</span>
               </>
             )}
           </h1>
