@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 import type { Section } from "@/lib/db";
-import { useRouter } from "next/navigation";
 
 export function SectionsManager({ initial }: { initial: Section[] }) {
-  const router = useRouter();
   const [sections, setSections] = useState<Section[]>(initial);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -29,7 +27,6 @@ export function SectionsManager({ initial }: { initial: Section[] }) {
       setTitle("");
       setDescription("");
       setSlug("");
-      router.refresh();
     } catch (e: any) {
       setErr(e.message);
     } finally {
@@ -46,7 +43,6 @@ export function SectionsManager({ initial }: { initial: Section[] }) {
     if (res.ok) {
       const updated = await res.json();
       setSections((s) => s.map((x) => (x.id === id ? updated : x)));
-      router.refresh();
     }
   }
 
@@ -55,7 +51,6 @@ export function SectionsManager({ initial }: { initial: Section[] }) {
     const res = await fetch(`/api/sections/${id}`, { method: "DELETE" });
     if (res.ok) {
       setSections((s) => s.filter((x) => x.id !== id));
-      router.refresh();
     }
   }
 

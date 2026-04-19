@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useRef } from "react";
 
 type Item = {
   slot: string;
@@ -10,10 +9,10 @@ type Item = {
   url: string;
   isDefault: boolean;
   aspect: string;
+  default: string;
 };
 
 export function ImagesManager({ initial }: { initial: Item[] }) {
-  const router = useRouter();
   const [items, setItems] = useState<Item[]>(initial);
 
   return (
@@ -22,9 +21,8 @@ export function ImagesManager({ initial }: { initial: Item[] }) {
         <ImageCard
           key={item.slot}
           item={item}
-          onChange={(url, isDefault) => {
-            setItems((xs) => xs.map((x) => (x.slot === item.slot ? { ...x, url, isDefault } : x)));
-            router.refresh();
+          onUpdate={(next) => {
+            setItems((xs) => xs.map((x) => (x.slot === item.slot ? { ...x, ...next } : x)));
           }}
         />
       ))}
@@ -34,35 +32,18 @@ export function ImagesManager({ initial }: { initial: Item[] }) {
 
 function ImageCard({
   item,
-  onChange,
+  onUpdate,
 }: {
   item: Item;
-  onChange: (url: string, isDefault: boolean) => void;
+  onUpdate: (next: Partial<Item>) => void;
 }) {
+  const fileRef = useRef<HTMLInputElement>(null);
   const [urlInput, setUrlInput] = useState("");
-  const [uploading, setUploading] = useState(false);
-  const [busy, setBusy] = useState(false);
+  const [state, setState] = useState<"idle" | "uploading" | "saving" | "ok" | "err">("idle");
   const [err, setErr] = useState<string | null>(null);
 
-  async function uploadFile(file: File) {
-    setUploading(true);
-    setErr(null);
-    try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const res = await fetch("/api/upload", { method: "POST", body: fd });
-      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "Ошибка");
-      const data = await res.json();
-      await save(data.url);
-    } catch (e: any) {
-      setErr(e.message);
-    } finally {
-      setUploading(false);
-    }
-  }
-
   async function save(url: string) {
-    setBusy(true);
+    setState("saving");
     setErr(null);
     try {
       const res = await fetch(`/api/site-images/${item.slot}`, {
@@ -70,27 +51,48 @@ function ImageCard({
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ url }),
       });
-      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "Ошибка");
-      onChange(url, false);
+      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "Ошибка сохранения");
+      onUpdate({ url, isDefault: false });
       setUrlInput("");
+      setState("ok");
+      setTimeout(() => setState("idle"), 1200);
     } catch (e: any) {
       setErr(e.message);
+      setState("err");
+    }
+  }
+
+  async function uploadFile(file: File) {
+    setState("uploading");
+    setErr(null);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "Ошибка загрузки");
+      const data = await res.json();
+      await save(data.url);
+    } catch (e: any) {
+      setErr(e.message);
+      setState("err");
     } finally {
-      setBusy(false);
+      if (fileRef.current) fileRef.current.value = "";
     }
   }
 
   async function reset() {
     if (!confirm("Сбросить на дефолтную заглушку?")) return;
-    setBusy(true);
+    setState("saving");
+    setErr(null);
     try {
       const res = await fetch(`/api/site-images/${item.slot}`, { method: "DELETE" });
-      if (res.ok) {
-        // After delete, default URL comes back via refresh
-        onChange("", true);
-      }
-    } finally {
-      setBusy(false);
+      if (!res.ok) throw new Error("Ошибка сброса");
+      onUpdate({ url: item.default, isDefault: true });
+      setState("ok");
+      setTimeout(() => setState("idle"), 1200);
+    } catch (e: any) {
+      setErr(e.message);
+      setState("err");
     }
   }
 
@@ -103,10 +105,20 @@ function ImageCard({
           ? "aspect-[3/2]"
           : "aspect-[2/1]";
 
+  const busy = state === "uploading" || state === "saving";
+
   return (
     <div className="card overflow-hidden">
-      <div className={`${aspectClass} w-full bg-midnight`}>
+      <div className={`${aspectClass} relative w-full bg-midnight`}>
         <img src={item.url} alt={item.title} className="h-full w-full object-cover" />
+        {busy && (
+          <div className="absolute inset-0 flex items-center justify-center bg-midnight/60 backdrop-blur-sm">
+            <div className="flex items-center gap-2 text-sm text-white">
+              <Spinner />
+              {state === "uploading" ? "Загружаем файл…" : "Сохраняем…"}
+            </div>
+          </div>
+        )}
       </div>
       <div className="space-y-3 p-5">
         <div className="flex items-start justify-between gap-3">
@@ -121,50 +133,76 @@ function ImageCard({
           )}
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          <label className="btn-ghost cursor-pointer text-sm py-2 px-4">
-            {uploading ? "Загружаем…" : "Загрузить файл"}
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              disabled={uploading || busy}
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f) uploadFile(f);
-              }}
-            />
-          </label>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            disabled={busy}
+            className="flex-1 btn-primary text-sm py-2.5 disabled:opacity-60"
+          >
+            {state === "uploading" ? "Загружаем…" : "📤 Загрузить файл"}
+          </button>
           {!item.isDefault && (
             <button
               type="button"
               onClick={reset}
               disabled={busy}
-              className="rounded-full border border-red-500/40 px-3 py-2 text-xs text-red-300 hover:bg-red-500/10"
+              className="rounded-full border border-red-500/40 px-4 py-2.5 text-xs text-red-300 hover:bg-red-500/10 disabled:opacity-60"
             >
               Сбросить
             </button>
           )}
         </div>
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) uploadFile(f);
+          }}
+        />
 
-        <div className="flex gap-2">
-          <input
-            value={urlInput}
-            onChange={(e) => setUrlInput(e.target.value)}
-            placeholder="или вставьте URL"
-            className="flex-1 rounded-xl border border-white/15 bg-midnight/60 px-4 py-2 text-sm outline-none focus:border-ember"
-          />
-          <button
-            type="button"
-            disabled={!urlInput.trim() || busy}
-            onClick={() => save(urlInput.trim())}
-            className="rounded-full bg-ember px-3 py-2 text-xs text-midnight disabled:opacity-50"
-          >
-            Сохранить URL
-          </button>
-        </div>
-        {err && <p className="text-sm text-red-400">{err}</p>}
+        <details className="group">
+          <summary className="cursor-pointer text-xs text-white/50 hover:text-white/80">
+            или задать URL вручную
+          </summary>
+          <div className="mt-2 flex gap-2">
+            <input
+              value={urlInput}
+              onChange={(e) => setUrlInput(e.target.value)}
+              placeholder="https://…"
+              className="flex-1 rounded-xl border border-white/15 bg-midnight/60 px-3 py-2 text-sm outline-none focus:border-ember"
+            />
+            <button
+              type="button"
+              disabled={!urlInput.trim() || busy}
+              onClick={() => save(urlInput.trim())}
+              className="rounded-full bg-ember px-4 py-2 text-xs font-medium text-midnight disabled:opacity-50"
+            >
+              Сохранить
+            </button>
+          </div>
+        </details>
+
+        {state === "ok" && <p className="text-xs text-emerald-400">✓ Сохранено</p>}
+        {err && <p className="text-xs text-red-400">{err}</p>}
       </div>
     </div>
+  );
+}
+
+function Spinner() {
+  return (
+    <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" opacity="0.25" />
+      <path
+        d="M22 12a10 10 0 0 1-10 10"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+    </svg>
   );
 }

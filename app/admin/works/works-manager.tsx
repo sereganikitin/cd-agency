@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import type { Section, Work } from "@/lib/db";
 
 type WorkRow = Work & { section_slug: string; section_title: string };
@@ -13,7 +12,6 @@ export function WorksManager({
   sections: Section[];
   initialWorks: WorkRow[];
 }) {
-  const router = useRouter();
   const [works, setWorks] = useState<WorkRow[]>(initialWorks);
   const [sectionId, setSectionId] = useState<number>(sections[0]?.id ?? 0);
   const [title, setTitle] = useState("");
@@ -74,7 +72,6 @@ export function WorksManager({
       setDescription("");
       setImageUrl("");
       setLinkUrl("");
-      router.refresh();
     } catch (e: any) {
       setErr(e.message);
     } finally {
@@ -87,7 +84,6 @@ export function WorksManager({
     const res = await fetch(`/api/works/${id}`, { method: "DELETE" });
     if (res.ok) {
       setWorks((w) => w.filter((x) => x.id !== id));
-      router.refresh();
     }
   }
 
@@ -105,7 +101,6 @@ export function WorksManager({
           x.id === id ? { ...updated, section_slug: section.slug, section_title: section.title } : x
         )
       );
-      router.refresh();
     }
   }
 

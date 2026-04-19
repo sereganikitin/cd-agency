@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 import type { Lead } from "@/lib/db";
-import { useRouter } from "next/navigation";
 
 export function LeadsManager({ initial }: { initial: Lead[] }) {
-  const router = useRouter();
   const [leads, setLeads] = useState<Lead[]>(initial);
   const [filter, setFilter] = useState<"all" | "new" | "handled">("new");
 
@@ -21,7 +19,6 @@ export function LeadsManager({ initial }: { initial: Lead[] }) {
     });
     if (res.ok) {
       setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, handled: handled ? 1 : 0 } : l)));
-      router.refresh();
     }
   }
 
@@ -30,7 +27,6 @@ export function LeadsManager({ initial }: { initial: Lead[] }) {
     const res = await fetch(`/api/leads/${id}`, { method: "DELETE" });
     if (res.ok) {
       setLeads((ls) => ls.filter((l) => l.id !== id));
-      router.refresh();
     }
   }
 
