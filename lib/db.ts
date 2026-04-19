@@ -53,9 +53,24 @@ export function getDb() {
       updated_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
 
+    CREATE TABLE IF NOT EXISTS cases (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      direction TEXT NOT NULL,
+      type_slug TEXT NOT NULL,
+      type_title TEXT NOT NULL,
+      title TEXT NOT NULL,
+      description TEXT,
+      image_url TEXT NOT NULL,
+      link_url TEXT,
+      position INTEGER NOT NULL DEFAULT 0,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
     CREATE INDEX IF NOT EXISTS idx_works_section ON works(section_id);
     CREATE INDEX IF NOT EXISTS idx_works_position ON works(position);
     CREATE INDEX IF NOT EXISTS idx_sections_position ON sections(position);
+    CREATE INDEX IF NOT EXISTS idx_cases_direction ON cases(direction);
+    CREATE INDEX IF NOT EXISTS idx_cases_type ON cases(direction, type_slug);
   `);
 
   _db = db;
@@ -142,6 +157,97 @@ export function listLeads(): Lead[] {
   const rows = getDb()
     .prepare("SELECT * FROM leads ORDER BY created_at DESC")
     .all() as unknown as Lead[];
+  return plainAll(rows);
+}
+
+export type Direction = {
+  slug: string;
+  title: string;
+  kicker: string;
+  tagline: string;
+  description: string;
+  imageSlot: string;
+};
+
+export const DIRECTIONS: Direction[] = [
+  {
+    slug: "smm",
+    kicker: "01",
+    title: "SMM & Контент",
+    tagline: "Контент, который заставляет остановить скролл.",
+    description:
+      "Реактивные форматы, рилсы, комьюнити-менеджмент и инфлюэнс-маркетинг. Мы ловим момент в ленте и превращаем его в охваты, сохранения и лиды.",
+    imageSlot: "service-1",
+  },
+  {
+    slug: "web",
+    kicker: "02",
+    title: "Web-разработка",
+    tagline: "Платформы, где путь от интереса до покупки — секунды.",
+    description:
+      "Лендинги, корпоративные сайты, e-commerce, сервисы на Next.js. Performance-бюджет, интеграции, аналитика и A/B-тесты на уровне «по умолчанию».",
+    imageSlot: "service-2",
+  },
+  {
+    slug: "performance",
+    kicker: "03",
+    title: "Performance-маркетинг",
+    tagline: "Находим аудиторию в момент её готовности к действию.",
+    description:
+      "Контекст, таргет, programmatic. Управляем бюджетом на результат: CPA, ROAS, LTV. Сквозная аналитика и прозрачная отчётность без воды.",
+    imageSlot: "service-3",
+  },
+  {
+    slug: "branding",
+    kicker: "04",
+    title: "Брендинг",
+    tagline: "Визуальный код, который запоминают с первого касания.",
+    description:
+      "Стратегия, нейминг, логотип, гайдлайны, tone of voice. Собираем узнаваемую систему, которая работает от поста в соцсетях до вывески на витрине.",
+    imageSlot: "service-4",
+  },
+];
+
+export function getDirection(slug: string): Direction | undefined {
+  return DIRECTIONS.find((d) => d.slug === slug);
+}
+
+export type Case = {
+  id: number;
+  direction: string;
+  type_slug: string;
+  type_title: string;
+  title: string;
+  description: string | null;
+  image_url: string;
+  link_url: string | null;
+  position: number;
+  created_at: string;
+};
+
+export function listCases(direction?: string): Case[] {
+  const db = getDb();
+  const rows = direction
+    ? (db
+        .prepare(
+          "SELECT * FROM cases WHERE direction = ? ORDER BY position ASC, id DESC"
+        )
+        .all(direction) as unknown as Case[])
+    : (db
+        .prepare("SELECT * FROM cases ORDER BY direction ASC, position ASC, id DESC")
+        .all() as unknown as Case[]);
+  return plainAll(rows);
+}
+
+export function listCaseTypes(direction: string): { slug: string; title: string; count: number }[] {
+  const rows = getDb()
+    .prepare(
+      `SELECT type_slug AS slug, type_title AS title, COUNT(*) AS count
+       FROM cases WHERE direction = ?
+       GROUP BY type_slug, type_title
+       ORDER BY title ASC`
+    )
+    .all(direction) as unknown as { slug: string; title: string; count: number }[];
   return plainAll(rows);
 }
 

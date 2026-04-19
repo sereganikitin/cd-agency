@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { LeadForm } from "@/components/lead-form";
-import { getSiteImageUrl, listSections, listWorks } from "@/lib/db";
+import { DIRECTIONS, getSiteImageUrl, listWorks } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -23,32 +23,13 @@ const values = [
   },
 ];
 
-const services = [
-  {
-    kicker: "01",
-    title: "SMM & Контент",
-    body: "Контент, который заставляет остановить скролл. Реактивные форматы, рилсы, комьюнити-менеджмент.",
-    slot: "service-1",
-  },
-  {
-    kicker: "02",
-    title: "Web-разработка",
-    body: "Платформы, где путь от интереса до покупки занимает секунды. Next.js, performance-бюджет, аналитика.",
-    slot: "service-2",
-  },
-  {
-    kicker: "03",
-    title: "Performance",
-    body: "Находим вашу аудиторию в тот момент, когда она ищет решение. Управление бюджетом на результат.",
-    slot: "service-3",
-  },
-  {
-    kicker: "04",
-    title: "Брендинг",
-    body: "Визуальный код, который запоминают с первого касания. От логотипа до гайдлайна тональности.",
-    slot: "service-4",
-  },
-];
+const services = DIRECTIONS.map((d) => ({
+  kicker: d.kicker,
+  title: d.title,
+  body: d.tagline,
+  slot: d.imageSlot,
+  href: `/services/${d.slug}`,
+}));
 
 const manifesto = [
   "Лови момент",
@@ -136,8 +117,9 @@ export default async function HomePage() {
         </div>
         <div className="mt-12 grid gap-4 md:grid-cols-2">
           {services.map((s, i) => (
-            <article
+            <Link
               key={s.title}
+              href={s.href}
               className="card group relative overflow-hidden transition hover:border-ember/50"
             >
               <div className="aspect-[4/3] w-full overflow-hidden">
@@ -154,9 +136,12 @@ export default async function HomePage() {
                 </div>
                 <h3 className="mt-4 font-display text-3xl">{s.title}</h3>
                 <p className="mt-3 text-sm text-white/60">{s.body}</p>
+                <div className="mt-6 inline-flex items-center gap-2 text-sm text-ember opacity-0 transition group-hover:opacity-100">
+                  Смотреть кейсы →
+                </div>
                 <div className="hairline mt-8 shimmer animate-shimmer" />
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </section>

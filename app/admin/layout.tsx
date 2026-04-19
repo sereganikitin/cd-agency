@@ -25,6 +25,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <AdminLink href="/admin">Обзор</AdminLink>
           <AdminLink href="/admin/sections">Разделы</AdminLink>
           <AdminLink href="/admin/works">Работы</AdminLink>
+          <AdminLink href="/admin/cases">Кейсы</AdminLink>
           <AdminLink href="/admin/images">Картинки</AdminLink>
           <AdminLink href="/admin/leads">Заявки</AdminLink>
           <Link href="/" className="px-3 py-1.5 text-white/60 hover:text-white">
