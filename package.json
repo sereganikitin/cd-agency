@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "seed": "tsx scripts/seed.ts"
+    "seed": "tsx scripts/seed.ts",
+    "add:primeresin": "tsx scripts/add-primeresin-case.ts"
   },
   "dependencies": {
     "clsx": "^2.1.1",
