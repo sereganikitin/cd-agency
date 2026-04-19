@@ -141,18 +141,13 @@ export default function ServiceDirectionPage({ params, searchParams }: Props) {
         ) : (
           <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((c) => (
-              <article
+              <Link
                 key={c.id}
+                href={`/cases/${c.id}`}
                 className="group overflow-hidden rounded-2xl border border-white/10 bg-graphite/40 transition hover:border-ember/50"
               >
-                {c.link_url ? (
-                  <a href={c.link_url} target="_blank" rel="noreferrer" className="block">
-                    <CaseContent c={c} />
-                  </a>
-                ) : (
-                  <CaseContent c={c} />
-                )}
-              </article>
+                <CaseContent c={c} />
+              </Link>
             ))}
           </div>
         )}
@@ -195,11 +190,9 @@ function CaseContent({ c }: { c: { title: string; description: string | null; im
         <span className="chip">{c.type_title}</span>
         <h3 className="font-display text-2xl">{c.title}</h3>
         {c.description && <p className="text-sm text-white/60 line-clamp-3">{c.description}</p>}
-        {c.link_url && (
-          <span className="inline-flex items-center gap-1 text-sm text-ember">
-            Открыть кейс →
-          </span>
-        )}
+        <span className="inline-flex items-center gap-1 text-sm text-ember transition group-hover:translate-x-1">
+          Открыть кейс →
+        </span>
       </div>
     </>
   );

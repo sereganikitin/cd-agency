@@ -456,6 +456,22 @@ export function listCases(direction?: string): Case[] {
   return plainAll(rows);
 }
 
+export function getCase(id: number): Case | undefined {
+  const row = getDb().prepare("SELECT * FROM cases WHERE id = ?").get(id) as
+    | Case
+    | undefined;
+  return row ? ({ ...row } as Case) : undefined;
+}
+
+export function listRelatedCases(direction: string, excludeId: number, limit = 3): Case[] {
+  const rows = getDb()
+    .prepare(
+      "SELECT * FROM cases WHERE direction = ? AND id != ? ORDER BY position ASC, id DESC LIMIT ?"
+    )
+    .all(direction, excludeId, limit) as unknown as Case[];
+  return plainAll(rows);
+}
+
 export function listCaseTypes(direction: string): { slug: string; title: string; count: number }[] {
   const rows = getDb()
     .prepare(
