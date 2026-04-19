@@ -1,10 +1,10 @@
-import { getDb } from "@/lib/db";
+import { listLeads } from "@/lib/db";
 import { LeadsManager } from "./leads-manager";
 
 export const dynamic = "force-dynamic";
 
 export default function AdminLeadsPage() {
-  const leads = getDb().prepare("SELECT * FROM leads ORDER BY created_at DESC").all() as any[];
+  const leads = listLeads();
   return (
     <div className="space-y-6">
       <div>

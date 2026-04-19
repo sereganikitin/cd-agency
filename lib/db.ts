@@ -92,39 +92,57 @@ export type Lead = {
   handled: number;
 };
 
+function plain<T extends Record<string, any>>(row: T | undefined): T | undefined {
+  return row ? ({ ...row } as T) : undefined;
+}
+
+function plainAll<T extends Record<string, any>>(rows: T[]): T[] {
+  return rows.map((r) => ({ ...r }));
+}
+
 export function listSections(): Section[] {
-  return getDb()
+  const rows = getDb()
     .prepare("SELECT * FROM sections ORDER BY position ASC, id ASC")
     .all() as unknown as Section[];
+  return plainAll(rows);
 }
 
 export function getSectionBySlug(slug: string): Section | undefined {
-  return getDb().prepare("SELECT * FROM sections WHERE slug = ?").get(slug) as
-    | Section
-    | undefined;
+  return plain(
+    getDb().prepare("SELECT * FROM sections WHERE slug = ?").get(slug) as
+      | Section
+      | undefined
+  );
 }
 
 export type WorkRow = Work & { section_slug: string; section_title: string };
 
 export function listWorks(sectionId?: number): WorkRow[] {
   const db = getDb();
-  if (sectionId) {
-    return db
-      .prepare(
-        `SELECT w.*, s.slug AS section_slug, s.title AS section_title
-         FROM works w JOIN sections s ON s.id = w.section_id
-         WHERE w.section_id = ?
-         ORDER BY w.position ASC, w.id DESC`
-      )
-      .all(sectionId) as unknown as WorkRow[];
-  }
-  return db
-    .prepare(
-      `SELECT w.*, s.slug AS section_slug, s.title AS section_title
-       FROM works w JOIN sections s ON s.id = w.section_id
-       ORDER BY w.position ASC, w.id DESC`
-    )
-    .all() as unknown as WorkRow[];
+  const rows = sectionId
+    ? (db
+        .prepare(
+          `SELECT w.*, s.slug AS section_slug, s.title AS section_title
+           FROM works w JOIN sections s ON s.id = w.section_id
+           WHERE w.section_id = ?
+           ORDER BY w.position ASC, w.id DESC`
+        )
+        .all(sectionId) as unknown as WorkRow[])
+    : (db
+        .prepare(
+          `SELECT w.*, s.slug AS section_slug, s.title AS section_title
+           FROM works w JOIN sections s ON s.id = w.section_id
+           ORDER BY w.position ASC, w.id DESC`
+        )
+        .all() as unknown as WorkRow[]);
+  return plainAll(rows);
+}
+
+export function listLeads(): Lead[] {
+  const rows = getDb()
+    .prepare("SELECT * FROM leads ORDER BY created_at DESC")
+    .all() as unknown as Lead[];
+  return plainAll(rows);
 }
 
 export const SITE_IMAGE_SLOTS: { slot: string; title: string; description: string; default: string; aspect: string }[] = [
