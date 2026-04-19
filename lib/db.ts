@@ -66,15 +66,232 @@ export function getDb() {
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
 
+    CREATE TABLE IF NOT EXISTS direction_benefits (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      direction TEXT NOT NULL,
+      title TEXT NOT NULL,
+      description TEXT NOT NULL,
+      position INTEGER NOT NULL DEFAULT 0,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
     CREATE INDEX IF NOT EXISTS idx_works_section ON works(section_id);
     CREATE INDEX IF NOT EXISTS idx_works_position ON works(position);
     CREATE INDEX IF NOT EXISTS idx_sections_position ON sections(position);
     CREATE INDEX IF NOT EXISTS idx_cases_direction ON cases(direction);
     CREATE INDEX IF NOT EXISTS idx_cases_type ON cases(direction, type_slug);
+    CREATE INDEX IF NOT EXISTS idx_benefits_direction ON direction_benefits(direction, position);
   `);
+
+  seedBenefitsIfEmpty(db);
 
   _db = db;
   return db;
+}
+
+function seedBenefitsIfEmpty(db: DatabaseSync) {
+  const count = db.prepare("SELECT COUNT(*) AS c FROM direction_benefits").get() as { c: number };
+  if (count.c > 0) return;
+  const insert = db.prepare(
+    "INSERT INTO direction_benefits (direction, title, description, position) VALUES (?, ?, ?, ?)"
+  );
+  for (const [direction, items] of Object.entries(DEFAULT_BENEFITS)) {
+    items.forEach((b, i) => insert.run(direction, b.title, b.description, i));
+  }
+}
+
+const DEFAULT_BENEFITS: Record<string, { title: string; description: string }[]> = {
+  web: [
+    {
+      title: "Бесшовный путь клиента",
+      description:
+        "Каждый экран ведёт к следующему шагу: от первого впечатления до нажатия «Купить». Без провалов и тупиков — структура строится на реальном пользовательском сценарии.",
+    },
+    {
+      title: "Скорость загрузки меньше 2 секунд",
+      description:
+        "Оптимизируем изображения, код и сеть, разгружаем критический путь. Сайт открывается быстрее, чем у посетителя успевает уйти внимание.",
+    },
+    {
+      title: "Адаптив под любое устройство",
+      description:
+        "Один дизайн, который безупречно работает на мобильном, планшете, десктопе и широких мониторах. Тестируем на реальной технике, а не только в симуляторе.",
+    },
+    {
+      title: "SEO-готовность из коробки",
+      description:
+        "Семантическая вёрстка, метаданные, Open Graph, Schema.org, карта сайта и robots.txt. Поисковики индексируют корректно с первого же обхода.",
+    },
+    {
+      title: "Интеграции без костылей",
+      description:
+        "CRM, платёжные системы, 1С, аналитика, чаты, email-маркетинг — всё подключено и работает в единой логике. Заявка из формы сразу в нужной системе.",
+    },
+    {
+      title: "Удобная админка",
+      description:
+        "Вы сами меняете тексты, картинки, цены и статьи без помощи разработчика. Интерфейс, который не требует обучения и мануала на 50 страниц.",
+    },
+    {
+      title: "Безопасность и SSL",
+      description:
+        "HTTPS, защита от XSS и CSRF, rate-limiting на формах, регулярные бэкапы. Данные клиентов — в безопасности с первого дня.",
+    },
+    {
+      title: "Аналитика и A/B-тесты",
+      description:
+        "Яндекс.Метрика, Google Analytics 4, heatmaps и запись сессий. Вы видите, как пользователи ведут себя, и принимаете решения на цифрах, а не на ощущениях.",
+    },
+    {
+      title: "Поддержка после запуска",
+      description:
+        "Исправляем баги, обновляем зависимости, консультируем по развитию. Сайт живёт и растёт вместе с вашим бизнесом, а не превращается в заброшенный артефакт.",
+    },
+  ],
+  smm: [
+    {
+      title: "Контент-стратегия под ваши цели",
+      description:
+        "Разбираем рынок, ЦА и конкурентов, формулируем tone of voice. На выходе — план постов на месяц вперёд, а не «в духе вдохновения».",
+    },
+    {
+      title: "Реактивные форматы",
+      description:
+        "Рилсы, шортсы, стикеры, мемы. Ловим тренды в первые часы и встраиваем ваш бренд в актуальный разговор — пока конкуренты только думают.",
+    },
+    {
+      title: "Единый визуальный код",
+      description:
+        "Лента выглядит как целое произведение, а не случайный набор картинок. Узнаваемый стиль усиливает бренд и помогает запоминанию.",
+    },
+    {
+      title: "Комьюнити-менеджмент",
+      description:
+        "Отвечаем на комментарии и DM в tone of voice бренда. Сложные случаи эскалируем вам за минуты, а не «завтра разберёмся».",
+    },
+    {
+      title: "Инфлюэнс-маркетинг",
+      description:
+        "Находим блогеров с живой аудиторией, а не с накрученными ботами. Договариваемся, проводим кампании под ключ и измеряем эффект.",
+    },
+    {
+      title: "Аналитика охватов и ER",
+      description:
+        "Еженедельный отчёт: что сработало, что нет, что усилим. Никаких отчётов в стиле «всё хорошо» — только цифры и выводы.",
+    },
+    {
+      title: "Оперативная реакция на повестку",
+      description:
+        "Ваш бренд встраивается в инфоповоды за часы, а не за недели согласований. Пока актуально — мы уже в эфире.",
+    },
+    {
+      title: "Таргет в связке с контентом",
+      description:
+        "Лучшие органические посты превращаются в платные объявления. Аудитории и бюджеты — под KPI, а не «потратить и посмотреть».",
+    },
+  ],
+  performance: [
+    {
+      title: "Медиаплан под KPI",
+      description:
+        "Не «освоить бюджет», а попасть в конкретный CPA или ROAS. Планируем кампании под ваши бизнес-метрики, а не под абстрактные показы.",
+    },
+    {
+      title: "Контекст и таргет в связке",
+      description:
+        "Яндекс.Директ, Google Ads, ВКонтакте, myTarget, Telegram Ads. Работаем там, где живёт ваша аудитория, а не там, где модно.",
+    },
+    {
+      title: "Сквозная аналитика",
+      description:
+        "Связываем клики, заявки, продажи и LTV в единую цепочку. Видим не «дешёвый клик», а реальную маржу с канала — решение за цифрами.",
+    },
+    {
+      title: "Постоянные A/B-тесты",
+      description:
+        "Тестируем креативы, заголовки, посадочные, аудитории. То, что сработало вчера, оптимизируется завтра — без «застывших» кампаний.",
+    },
+    {
+      title: "Работа с 1P-данными",
+      description:
+        "Собираем аудитории из CRM, строим lookalike, настраиваем ретаргетинг. Ваши реальные продажи обучают ваши же кампании.",
+    },
+    {
+      title: "Programmatic и динамика",
+      description:
+        "Баннеры подстраиваются под сегмент аудитории и товар в корзине. Генерируются налету вместо одного универсального шаблона.",
+    },
+    {
+      title: "Прозрачная отчётность",
+      description:
+        "Дашборд в реальном времени и еженедельная сводка. Видно каждый рубль и что он принёс — никаких «по итогам квартала всё расскажем».",
+    },
+    {
+      title: "Защита от скликивания",
+      description:
+        "Фильтры ботов, анализ аномалий трафика, автоматическое исключение невалидных источников. Бюджет уходит на реальных клиентов.",
+    },
+  ],
+  branding: [
+    {
+      title: "Позиционирование и миссия",
+      description:
+        "Отвечаем на вопрос «зачем мы существуем» и делаем ответ понятным сотруднику, клиенту, партнёру и журналисту за один приём.",
+    },
+    {
+      title: "Нейминг и слоган",
+      description:
+        "Имя, которое легко произносится, запоминается и защищается юридически. Слоган — не украшение, а сжатая до одной фразы история бренда.",
+    },
+    {
+      title: "Логотип — цифра и витрина",
+      description:
+        "Векторная система с адаптивными версиями под соцсети, деловую документацию, наружку и сувенирку. Работает везде — от аватарки до билборда.",
+    },
+    {
+      title: "Фирменная палитра и типографика",
+      description:
+        "Цвета и шрифты с правилами сочетаний и иерархии. Одинаково хорошо смотрятся и в презентации для инвестора, и в stories.",
+    },
+    {
+      title: "Tone of Voice",
+      description:
+        "Гайд «как мы говорим» — уверенно, тепло, с лёгкой иронией. С примерами good/bad на реальных фрагментах постов, писем и объявлений.",
+    },
+    {
+      title: "Brand Guidelines PDF",
+      description:
+        "Всё вышеперечисленное собрано в один документ. Подрядчики открывают и делают правильно — без ваших пересказов «как мы обычно».",
+    },
+    {
+      title: "Шаблоны для команды",
+      description:
+        "Презентации, соцсети, email-подписи, визитки, коммерческие предложения. Команда перестаёт изобретать дизайн каждый раз с нуля.",
+    },
+    {
+      title: "Ребрендинг с continuity",
+      description:
+        "Если переходите с существующей идентичности — сохраняем знакомые якоря. Аудитория видит «новое, но наше», а не «кого-то другого».",
+    },
+  ],
+};
+
+export type DirectionBenefit = {
+  id: number;
+  direction: string;
+  title: string;
+  description: string;
+  position: number;
+  created_at: string;
+};
+
+export function listBenefits(direction: string): DirectionBenefit[] {
+  const rows = getDb()
+    .prepare(
+      "SELECT * FROM direction_benefits WHERE direction = ? ORDER BY position ASC, id ASC"
+    )
+    .all(direction) as unknown as DirectionBenefit[];
+  return plainAll(rows);
 }
 
 export type Section = {

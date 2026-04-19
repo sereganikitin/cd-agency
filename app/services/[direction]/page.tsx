@@ -4,6 +4,7 @@ import {
   DIRECTIONS,
   getDirection,
   getSiteImageUrl,
+  listBenefits,
   listCaseTypes,
   listCases,
 } from "@/lib/db";
@@ -30,6 +31,7 @@ export default function ServiceDirectionPage({ params, searchParams }: Props) {
 
   const allCases = listCases(dir.slug);
   const types = listCaseTypes(dir.slug);
+  const benefits = listBenefits(dir.slug);
   const activeType = searchParams.type || "";
   const filtered = activeType
     ? allCases.filter((c) => c.type_slug === activeType)
@@ -69,6 +71,34 @@ export default function ServiceDirectionPage({ params, searchParams }: Props) {
           </div>
         </div>
       </section>
+
+      {benefits.length > 0 && (
+        <section className="border-b border-white/10 bg-graphite/30">
+          <div className="mx-auto max-w-7xl px-6 py-20">
+            <div className="flex flex-wrap items-end justify-between gap-6">
+              <div>
+                <span className="chip">Что вы получаете</span>
+                <h2 className="mt-3 font-display text-4xl md:text-5xl text-balance">
+                  Что входит в <span className="text-ember">{dir.title.toLowerCase()}</span>
+                </h2>
+              </div>
+              <p className="max-w-md text-sm text-white/60">
+                Не список услуг ради галочки, а то, что реально получает клиент и что двигает бизнес-метрики.
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-2 lg:grid-cols-3">
+              {benefits.map((b, i) => (
+                <div key={b.id} className="bg-graphite/80 p-8 transition hover:bg-graphite">
+                  <div className="font-display text-sm text-ember">{String(i + 1).padStart(2, "0")}</div>
+                  <h3 className="mt-4 font-display text-2xl leading-tight">{b.title}</h3>
+                  <p className="mt-3 text-sm text-white/65 leading-relaxed">{b.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="mx-auto max-w-7xl px-6 py-16">
         <div className="flex flex-wrap items-end justify-between gap-6">
