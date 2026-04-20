@@ -10,7 +10,7 @@ const config: Config = {
         ember: "#FAFAF7",
         spark: "#E5E5DF",
         clean: "#FAFAF7",
-        brand: "#EC4899",
+        brand: "#EB94BD",
       },
       fontFamily: {
         display: ["var(--font-sans)", "system-ui", "sans-serif"],
