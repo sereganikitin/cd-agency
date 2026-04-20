@@ -15,7 +15,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <Link href="/admin" className="font-display text-3xl">
-            Carpe Diem <span className="text-ember">Admin</span>
+            Crab Digital <span className="text-ember">Admin</span>
           </Link>
           <p className="mt-1 text-sm text-white/50">
             Управление галереей, разделами и заявками

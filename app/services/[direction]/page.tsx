@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: { direction: string
   const dir = getDirection(params.direction);
   if (!dir) return {};
   return {
-    title: `${dir.title} — Carpe Diem Agency`,
+    title: `${dir.title} — Crab Digital Agency`,
     description: dir.tagline,
   };
 }

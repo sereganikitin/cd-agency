@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: Props) {
   const c = getCase(id);
   if (!c) return {};
   return {
-    title: `${c.title} — Carpe Diem Agency`,
+    title: `${c.title} — Crab Digital Agency`,
     description: c.description?.slice(0, 160) || c.type_title,
   };
 }
