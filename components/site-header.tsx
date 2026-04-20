@@ -8,7 +8,7 @@ export function SiteHeader() {
         <Link href="/" className="flex items-center gap-2">
           <Logo className="h-9 w-9" />
           <span className="font-display text-xl tracking-tight">
-            Crab <span className="text-ember">Digital</span> Agency
+            Crab <span className="text-brand">Digital</span> Agency
           </span>
         </Link>
         <nav className="hidden items-center gap-8 text-sm text-white/80 md:flex">

@@ -12,12 +12,12 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Crab Digital Agency — Цепляем тренды. Держим рынок.",
+  title: "Crab Digital Agency — Лови момент. Захватывай рынок.",
   description:
-    "Digital-агентство полного цикла: SMM, web-разработка, performance и брендинг. Крепкий панцирь стратегии и цепкие клешни исполнения — для брендов, которые растут, меняясь.",
+    "Креативное digital-агентство полного цикла: SMM, web-разработка и performance. Превращаем мимолетные тренды в долгосрочный успех брендов.",
   openGraph: {
     title: "Crab Digital Agency",
-    description: "Цепляем тренды. Держим рынок.",
+    description: "Лови момент. Захватывай рынок.",
     type: "website",
   },
 };

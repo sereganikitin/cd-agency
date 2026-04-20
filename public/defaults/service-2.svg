@@ -1,13 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
   <defs>
     <linearGradient id="lg2" x1="1" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#FFC300"/>
-      <stop offset="50%" stop-color="#FF5A1F"/>
-      <stop offset="100%" stop-color="#161618"/>
+      <stop offset="0%" stop-color="#2E2E30"/>
+      <stop offset="100%" stop-color="#0A0A0B"/>
     </linearGradient>
   </defs>
   <rect width="800" height="600" fill="url(#lg2)"/>
-  <g fill="none" stroke="#0A0A0B" stroke-width="1.5" opacity="0.4">
+  <g fill="none" stroke="#FAFAF7" stroke-width="1" opacity="0.22">
     <path d="M0,100 L800,100"/>
     <path d="M0,200 L800,200"/>
     <path d="M0,300 L800,300"/>
@@ -19,8 +18,8 @@
     <path d="M550,0 L550,600"/>
     <path d="M700,0 L700,600"/>
   </g>
-  <g opacity="0.9">
-    <rect x="300" y="200" width="200" height="200" fill="#0A0A0B" opacity="0.5"/>
-    <rect x="340" y="240" width="120" height="120" fill="#FFC300"/>
+  <g opacity="0.95">
+    <rect x="300" y="200" width="200" height="200" fill="#0A0A0B" stroke="#FAFAF7" stroke-width="1" opacity="0.9"/>
+    <rect x="340" y="240" width="120" height="120" fill="#FAFAF7"/>
   </g>
 </svg>

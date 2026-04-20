@@ -6,20 +6,20 @@ export const dynamic = "force-dynamic";
 
 const values = [
   {
-    title: "Стойкость",
-    body: "Крепкий панцирь стратегии: кампании выдерживают смену алгоритмов, экономические циклы и капризы рынка.",
+    title: "Реактивность",
+    body: "Скорость — наше главное преимущество. Решения внедряем здесь и сейчас, пока тренд жив.",
   },
   {
-    title: "Трансформация",
-    body: "Как краб сбрасывает панцирь, чтобы расти — так бренд обновляется, не теряя себя. Рост без паники и без страха потерять узнаваемость.",
+    title: "Смелость",
+    body: "Риск в моменте оправдан результатом в будущем. Мы выбираем смелые ходы, а не тёплый компромисс.",
   },
   {
-    title: "Цепкость",
-    body: "Клешни держат задачу, пока она не решена. Не выпускаем клиента из внимания — от первого созвона до постлонча.",
+    title: "Актуальность",
+    body: "Ловим контекст рынка, нерв соцсетей и технические инновации — не делаем маркетинг в вакууме.",
   },
   {
-    title: "Чувство стихии",
-    body: "Краб чувствует луну и прилив. Мы чувствуем нерв рынка, тренды соцсетей и изменения алгоритмов — и двигаемся вовремя.",
+    title: "Эстетика функционала",
+    body: "Красиво — мало. Сайт должен быть интуитивным, чтобы пользователь не споткнулся в моменте принятия решения.",
   },
 ];
 
@@ -32,12 +32,12 @@ const services = DIRECTIONS.map((d) => ({
 }));
 
 const manifesto = [
-  "Цепляй тренды",
-  "Держи рынок",
+  "Лови момент",
+  "Захватывай рынок",
   "Crab Digital",
-  "Расти не теряя формы",
-  "Меняй оболочку",
-  "Загребай удачу",
+  "Успеть вовремя",
+  "Стать легендой",
+  "Конвертируем мгновения в лояльность",
 ];
 
 const crabSymbols = [
@@ -80,15 +80,15 @@ export default async function HomePage() {
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-midnight/70 via-midnight/90 to-midnight" />
         <div className="mx-auto max-w-7xl px-6 pt-16 pb-24 md:pt-28 md:pb-36">
           <div className="chip">
-            <span className="mr-2 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-ember" />
-            Crab Digital · Agency · 2026
+            <span className="mr-2 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-clean" />
+            Crab Digital Agency · 2026
           </div>
           <h1 className="mt-6 font-display text-5xl leading-[0.95] tracking-tight text-balance md:text-7xl lg:text-8xl">
-            Цепляем тренды. <br />
-            <span className="text-ember">Держим</span> рынок.
+            Лови момент. <br />
+            <span className="text-brand">Захватывай</span> рынок.
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-white/70 md:text-xl">
-            Digital-агентство полного цикла с панцирем стратегии и цепкими клешнями исполнения. Помогаем брендам расти, меняясь, — и удерживать внимание аудитории в любом приливе.
+            Агентство полного цикла, которое создаёт бесшовный путь клиента: от первой искры в соцсетях до идеального финиша на сайте. Мы не ждём идеального момента — мы создаём его здесь и сейчас.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <Link href="#contact" className="btn-primary">
@@ -107,7 +107,7 @@ export default async function HomePage() {
               { k: "100%", v: "прозрачная отчётность" },
             ].map((s) => (
               <div key={s.v} className="card p-5">
-                <div className="font-display text-3xl text-ember">{s.k}</div>
+                <div className="font-display text-3xl text-clean">{s.k}</div>
                 <div className="mt-1 text-xs uppercase tracking-[0.18em] text-white/60">{s.v}</div>
               </div>
             ))}
@@ -119,7 +119,7 @@ export default async function HomePage() {
             {[...manifesto, ...manifesto, ...manifesto].map((m, i) => (
               <span key={i} className="flex items-center gap-10">
                 <span>{m}</span>
-                <span className="text-ember">✦</span>
+                <span className="text-clean">✦</span>
               </span>
             ))}
           </div>
@@ -131,11 +131,11 @@ export default async function HomePage() {
           <div>
             <span className="chip">Направления</span>
             <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
-              Четыре направления. <span className="text-ember">Один панцирь.</span>
+              Четыре направления. <span className="text-clean">Один поток.</span>
             </h2>
           </div>
           <p className="hidden max-w-md text-sm text-white/60 md:block">
-            Сайт, контент и реклама — единое движение в одну сторону. Мы стираем границы между разработкой и креативом.
+            Сайт, контент и реклама — это единый поток. Мы стираем границы между разработкой и креативом.
           </p>
         </div>
         <div className="mt-12 grid gap-4 md:grid-cols-2">
@@ -143,7 +143,7 @@ export default async function HomePage() {
             <Link
               key={s.title}
               href={s.href}
-              className="card group relative overflow-hidden transition hover:border-ember/50"
+              className="card group relative overflow-hidden transition hover:border-white/30"
             >
               <div className="aspect-[4/3] w-full overflow-hidden">
                 <img
@@ -154,12 +154,12 @@ export default async function HomePage() {
               </div>
               <div className="p-8">
                 <div className="flex items-start justify-between">
-                  <span className="font-display text-sm text-ember">{s.kicker}</span>
-                  <span className="text-white/40 transition group-hover:translate-x-1 group-hover:text-ember">→</span>
+                  <span className="font-display text-sm text-white/60">{s.kicker}</span>
+                  <span className="text-white/40 transition group-hover:translate-x-1 group-hover:text-clean">→</span>
                 </div>
                 <h3 className="mt-4 font-display text-3xl">{s.title}</h3>
                 <p className="mt-3 text-sm text-white/60">{s.body}</p>
-                <div className="mt-6 inline-flex items-center gap-2 text-sm text-ember opacity-0 transition group-hover:opacity-100">
+                <div className="mt-6 inline-flex items-center gap-2 text-sm text-white/70 opacity-0 transition group-hover:opacity-100">
                   Смотреть кейсы →
                 </div>
                 <div className="hairline mt-8 shimmer animate-shimmer" />
@@ -173,12 +173,12 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl px-6 py-24">
           <span className="chip">Ценности</span>
           <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
-            Что у нас в <span className="text-ember">панцире.</span>
+            Опоры бренда, на которых мы стоим.
           </h2>
           <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {values.map((v, i) => (
               <div key={v.title} className="relative">
-                <div className="font-display text-6xl text-ember/30">0{i + 1}</div>
+                <div className="font-display text-6xl text-white/15">0{i + 1}</div>
                 <h3 className="mt-2 font-display text-2xl">{v.title}</h3>
                 <p className="mt-3 text-sm text-white/60">{v.body}</p>
               </div>
@@ -192,7 +192,7 @@ export default async function HomePage() {
           <div className="md:sticky md:top-24">
             <span className="chip">О нас</span>
             <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
-              Почему <span className="text-ember">краб.</span>
+              Почему краб.
             </h2>
             <p className="mt-4 text-white/70">
               Мы выбрали краба не как картинку, а как рабочую метафору. Пять смыслов этого символа — это пять принципов, которыми мы руководствуемся каждый день.
@@ -206,10 +206,10 @@ export default async function HomePage() {
             {crabSymbols.map((s, i) => (
               <div
                 key={s.title}
-                className="card p-6 transition hover:border-ember/40"
+                className="card p-6 transition hover:border-white/30"
               >
                 <div className="flex items-baseline gap-4">
-                  <span className="font-display text-4xl text-ember/40">0{i + 1}</span>
+                  <span className="font-display text-4xl text-white/25">0{i + 1}</span>
                   <h3 className="font-display text-2xl leading-tight">{s.title}</h3>
                 </div>
                 <p className="mt-3 pl-14 text-white/70">{s.body}</p>
@@ -224,7 +224,7 @@ export default async function HomePage() {
           <div>
             <span className="chip">Галерея</span>
             <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
-              Работы, которые мы <span className="text-ember">зацепили.</span>
+              Точки касания, которые сработали.
             </h2>
           </div>
           <Link href="/gallery" className="btn-ghost">
@@ -234,7 +234,7 @@ export default async function HomePage() {
         {featured.length === 0 ? (
           <div className="mt-10 card p-10 text-center text-white/60">
             Галерея пока пуста. Добавьте работы в{" "}
-            <Link href="/admin" className="text-ember underline">админке</Link>.
+            <Link href="/admin" className="text-clean underline">админке</Link>.
           </div>
         ) : (
           <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -271,14 +271,14 @@ export default async function HomePage() {
             <div>
               <span className="chip">Контакты</span>
               <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
-                Расскажите о задаче — <span className="text-ember">зацепимся за 24 часа.</span>
+                Расскажите о задаче — ответим за 24 часа.
               </h2>
               <p className="mt-4 text-white/70">
                 Оставьте заявку — подберём подход и соберём команду под ваш проект. Без длинных бриф-пингов и водянистых предложений.
               </p>
               <div className="mt-8 space-y-2 text-sm text-white/80">
-                <div>✉ <a href="mailto:hello@crab.agency" className="hover:text-ember">hello@crab.agency</a></div>
-                <div>✦ <a href="https://t.me/crab_digital_agency" className="hover:text-ember">@crab_digital_agency</a></div>
+                <div>✉ <a href="mailto:hello@crab.agency" className="hover:text-clean">hello@crab.agency</a></div>
+                <div>✦ <a href="https://t.me/crab_digital_agency" className="hover:text-clean">@crab_digital_agency</a></div>
               </div>
             </div>
             <LeadForm />

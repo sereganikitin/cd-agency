@@ -30,7 +30,7 @@ export function LeadForm() {
   if (status === "ok") {
     return (
       <div className="flex h-full min-h-[320px] flex-col items-center justify-center rounded-xl border border-ember/40 bg-ember/10 p-10 text-center">
-        <div className="font-display text-3xl">Зацепились.</div>
+        <div className="font-display text-3xl">Поймали момент.</div>
         <p className="mt-3 text-white/70">
           Заявка получена. Вернёмся с предложением в течение 24 часов.
         </p>

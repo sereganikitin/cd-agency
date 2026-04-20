@@ -9,11 +9,11 @@ export function SiteFooter() {
           <div className="flex items-center gap-2">
             <Logo className="h-8 w-8" />
             <span className="font-display text-xl">
-              Crab <span className="text-ember">Digital</span> Agency
+              Crab <span className="text-brand">Digital</span> Agency
             </span>
           </div>
           <p className="mt-4 max-w-sm text-sm text-white/60">
-            Digital-агентство с панцирем стратегии и цепкими клешнями исполнения. Мы удерживаем внимание и помогаем брендам расти, меняясь.
+            Агентство быстрых и точных коммуникаций. Мы не ждём идеального момента — мы создаём его здесь и сейчас.
           </p>
         </div>
         <div>
@@ -38,7 +38,7 @@ export function SiteFooter() {
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-6 text-xs text-white/40 md:flex-row">
           <span>© {new Date().getFullYear()} Crab Digital Agency. Все права защищены.</span>
-          <span className="font-display">Держим крепко. Растём, меняя оболочку.</span>
+          <span className="font-display">Успеть вовремя. Стать легендой.</span>
         </div>
       </div>
     </footer>

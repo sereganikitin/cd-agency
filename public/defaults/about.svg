@@ -2,21 +2,21 @@
   <defs>
     <linearGradient id="about" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#0A0A0B"/>
-      <stop offset="100%" stop-color="#161618"/>
+      <stop offset="100%" stop-color="#1A1A1C"/>
     </linearGradient>
   </defs>
   <rect width="1200" height="800" fill="url(#about)"/>
-  <g fill="none" stroke="#FF5A1F" opacity="0.4" stroke-width="1.5">
+  <g fill="none" stroke="#FAFAF7" opacity="0.35" stroke-width="1.5">
     <path d="M100,700 L200,200 L400,550 L600,150 L800,600 L1000,250 L1100,450"/>
   </g>
-  <g fill="#FFC300">
-    <circle cx="200" cy="200" r="8"/>
-    <circle cx="400" cy="550" r="8"/>
-    <circle cx="600" cy="150" r="8"/>
-    <circle cx="800" cy="600" r="8"/>
-    <circle cx="1000" cy="250" r="8"/>
+  <g fill="#FAFAF7">
+    <circle cx="200" cy="200" r="7"/>
+    <circle cx="400" cy="550" r="7"/>
+    <circle cx="600" cy="150" r="7"/>
+    <circle cx="800" cy="600" r="7"/>
+    <circle cx="1000" cy="250" r="7"/>
   </g>
-  <g opacity="0.2" stroke="#FAFAF7" stroke-width="1" fill="none">
+  <g opacity="0.18" stroke="#FAFAF7" stroke-width="1" fill="none">
     <path d="M0,400 L1200,400"/>
     <path d="M600,0 L600,800"/>
   </g>

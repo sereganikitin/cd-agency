@@ -7,16 +7,17 @@ const config: Config = {
       colors: {
         midnight: "#0A0A0B",
         graphite: "#1A1A1C",
-        ember: "#F472B6",
-        spark: "#FBCFE8",
+        ember: "#FAFAF7",
+        spark: "#E5E5DF",
         clean: "#FAFAF7",
+        brand: "#F472B6",
       },
       fontFamily: {
         display: ["var(--font-sans)", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
       },
       boxShadow: {
-        glow: "0 0 0 1px rgba(244,114,182,.35), 0 20px 60px -20px rgba(244,114,182,.6)",
+        glow: "0 0 0 1px rgba(250,250,247,.25), 0 20px 60px -20px rgba(250,250,247,.35)",
       },
       animation: {
         shimmer: "shimmer 2.2s linear infinite",
