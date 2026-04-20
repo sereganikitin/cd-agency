@@ -5,12 +5,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        midnight: "#0A0A0B",
-        graphite: "#1A1A1C",
+        midnight: "#191B1D",
+        graphite: "#23262A",
         ember: "#FAFAF7",
         spark: "#E5E5DF",
         clean: "#FAFAF7",
-        brand: "#F472B6",
+        brand: "#EC4899",
       },
       fontFamily: {
         display: ["var(--font-sans)", "system-ui", "sans-serif"],

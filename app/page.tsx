@@ -6,20 +6,20 @@ export const dynamic = "force-dynamic";
 
 const values = [
   {
-    title: "Реактивность",
-    body: "Скорость — наше главное преимущество. Решения внедряем здесь и сейчас, пока тренд жив.",
+    title: "Стойкость",
+    body: "Крепкий панцирь стратегии: кампании выдерживают смену алгоритмов, экономические циклы и капризы рынка.",
   },
   {
-    title: "Смелость",
-    body: "Риск в моменте оправдан результатом в будущем. Мы выбираем смелые ходы, а не тёплый компромисс.",
+    title: "Трансформация",
+    body: "Как краб сбрасывает панцирь, чтобы расти — так бренд обновляется, не теряя себя. Рост без паники и без страха потерять узнаваемость.",
   },
   {
-    title: "Актуальность",
-    body: "Ловим контекст рынка, нерв соцсетей и технические инновации — не делаем маркетинг в вакууме.",
+    title: "Цепкость",
+    body: "Клешни держат задачу, пока она не решена. Не выпускаем клиента из внимания — от первого созвона до постлонча.",
   },
   {
-    title: "Эстетика функционала",
-    body: "Красиво — мало. Сайт должен быть интуитивным, чтобы пользователь не споткнулся в моменте принятия решения.",
+    title: "Чувство стихии",
+    body: "Краб чувствует луну и прилив. Мы чувствуем нерв рынка, тренды соцсетей и изменения алгоритмов — и двигаемся вовремя.",
   },
 ];
 
@@ -32,12 +32,12 @@ const services = DIRECTIONS.map((d) => ({
 }));
 
 const manifesto = [
-  "Лови момент",
-  "Захватывай рынок",
+  "Цепляй тренды",
+  "Держи рынок",
   "Crab Digital",
-  "Успеть вовремя",
-  "Стать легендой",
-  "Конвертируем мгновения в лояльность",
+  "Расти не теряя формы",
+  "Меняй оболочку",
+  "Загребай удачу",
 ];
 
 const crabSymbols = [
@@ -84,11 +84,11 @@ export default async function HomePage() {
             Crab Digital Agency · 2026
           </div>
           <h1 className="mt-6 font-display text-5xl leading-[0.95] tracking-tight text-balance md:text-7xl lg:text-8xl">
-            Лови момент. <br />
-            <span className="text-brand">Захватывай</span> рынок.
+            Цепляем тренды. <br />
+            <span className="text-brand">Держим</span> рынок.
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-white/70 md:text-xl">
-            Агентство полного цикла, которое создаёт бесшовный путь клиента: от первой искры в соцсетях до идеального финиша на сайте. Мы не ждём идеального момента — мы создаём его здесь и сейчас.
+            Digital-агентство полного цикла с панцирем стратегии и цепкими клешнями исполнения. Помогаем брендам расти, меняясь, — и удерживать внимание аудитории в любом приливе.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <Link href="#contact" className="btn-primary">
@@ -131,7 +131,7 @@ export default async function HomePage() {
           <div>
             <span className="chip">Направления</span>
             <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
-              Четыре направления. <span className="text-clean">Один поток.</span>
+              Четыре направления. <span className="text-clean">Один панцирь.</span>
             </h2>
           </div>
           <p className="hidden max-w-md text-sm text-white/60 md:block">
@@ -173,7 +173,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl px-6 py-24">
           <span className="chip">Ценности</span>
           <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
-            Опоры бренда, на которых мы стоим.
+            Что у нас в <span className="text-clean">панцире.</span>
           </h2>
           <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {values.map((v, i) => (
@@ -224,7 +224,7 @@ export default async function HomePage() {
           <div>
             <span className="chip">Галерея</span>
             <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
-              Точки касания, которые сработали.
+              Работы, которые мы <span className="text-clean">зацепили.</span>
             </h2>
           </div>
           <Link href="/gallery" className="btn-ghost">
@@ -271,7 +271,7 @@ export default async function HomePage() {
             <div>
               <span className="chip">Контакты</span>
               <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
-                Расскажите о задаче — ответим за 24 часа.
+                Расскажите о задаче — <span className="text-clean">зацепимся за 24 часа.</span>
               </h2>
               <p className="mt-4 text-white/70">
                 Оставьте заявку — подберём подход и соберём команду под ваш проект. Без длинных бриф-пингов и водянистых предложений.
