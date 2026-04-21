@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { LeadForm } from "@/components/lead-form";
-import { DIRECTIONS, getSiteImageUrl, listWorks } from "@/lib/db";
+import { CasesCarousel } from "@/components/cases-carousel";
+import { DIRECTIONS, getSiteImageUrl, listFeaturedCases } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -64,7 +65,7 @@ const crabSymbols = [
 ];
 
 export default async function HomePage() {
-  const featured = listWorks().slice(0, 6);
+  const featured = listFeaturedCases(12);
   const heroImg = getSiteImageUrl("hero");
   const aboutImg = getSiteImageUrl("about");
   const ctaImg = getSiteImageUrl("cta");
@@ -222,40 +223,23 @@ export default async function HomePage() {
       <section className="mx-auto max-w-7xl px-6 pb-24">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <span className="chip">Галерея</span>
+            <span className="chip">Кейсы</span>
             <h2 className="mt-4 font-display text-4xl md:text-5xl text-balance">
               Работы, которые мы <span className="text-clean">зацепили.</span>
             </h2>
           </div>
           <Link href="/gallery" className="btn-ghost">
-            Вся галерея →
+            Посмотреть все →
           </Link>
         </div>
         {featured.length === 0 ? (
           <div className="mt-10 card p-10 text-center text-white/60">
-            Галерея пока пуста. Добавьте работы в{" "}
-            <Link href="/admin" className="text-clean underline">админке</Link>.
+            На главной пока нет кейсов. Отметьте нужные галочкой «Выводить на главную»{" "}
+            <Link href="/admin/cases" className="text-clean underline">в админке</Link>.
           </div>
         ) : (
-          <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {featured.map((w) => (
-              <Link
-                key={w.id}
-                href={`/gallery?section=${w.section_slug}`}
-                className="group relative overflow-hidden rounded-2xl border border-white/10"
-              >
-                <img
-                  src={w.image_url}
-                  alt={w.title}
-                  className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/40 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-5">
-                  <span className="chip">{w.section_title}</span>
-                  <h3 className="mt-2 font-display text-xl">{w.title}</h3>
-                </div>
-              </Link>
-            ))}
+          <div className="mt-10">
+            <CasesCarousel cases={featured} directions={DIRECTIONS} />
           </div>
         )}
       </section>

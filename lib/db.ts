@@ -63,6 +63,7 @@ export function getDb() {
       image_url TEXT NOT NULL,
       link_url TEXT,
       position INTEGER NOT NULL DEFAULT 0,
+      featured INTEGER NOT NULL DEFAULT 0,
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
 
@@ -82,6 +83,12 @@ export function getDb() {
     CREATE INDEX IF NOT EXISTS idx_cases_type ON cases(direction, type_slug);
     CREATE INDEX IF NOT EXISTS idx_benefits_direction ON direction_benefits(direction, position);
   `);
+
+  // Migration: add `featured` column to cases if missing
+  const caseCols = db.prepare("PRAGMA table_info(cases)").all() as { name: string }[];
+  if (!caseCols.some((c) => c.name === "featured")) {
+    db.exec("ALTER TABLE cases ADD COLUMN featured INTEGER NOT NULL DEFAULT 0");
+  }
 
   seedBenefitsIfEmpty(db);
 
@@ -439,6 +446,7 @@ export type Case = {
   image_url: string;
   link_url: string | null;
   position: number;
+  featured: number;
   created_at: string;
 };
 
@@ -447,12 +455,21 @@ export function listCases(direction?: string): Case[] {
   const rows = direction
     ? (db
         .prepare(
-          "SELECT * FROM cases WHERE direction = ? ORDER BY position ASC, id DESC"
+          "SELECT * FROM cases WHERE direction = ? ORDER BY created_at DESC, id DESC"
         )
         .all(direction) as unknown as Case[])
     : (db
-        .prepare("SELECT * FROM cases ORDER BY direction ASC, position ASC, id DESC")
+        .prepare("SELECT * FROM cases ORDER BY created_at DESC, id DESC")
         .all() as unknown as Case[]);
+  return plainAll(rows);
+}
+
+export function listFeaturedCases(limit = 12): Case[] {
+  const rows = getDb()
+    .prepare(
+      "SELECT * FROM cases WHERE featured = 1 ORDER BY created_at DESC, id DESC LIMIT ?"
+    )
+    .all(limit) as unknown as Case[];
   return plainAll(rows);
 }
 

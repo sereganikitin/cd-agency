@@ -19,6 +19,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
         image_url?: string;
         link_url?: string | null;
         position?: number;
+        featured?: boolean | number;
       }
     | null;
   if (!body) return NextResponse.json({ error: "bad body" }, { status: 400 });
@@ -74,6 +75,10 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (body.position !== undefined) {
     fields.push("position = ?");
     values.push(Number(body.position) || 0);
+  }
+  if (body.featured !== undefined) {
+    fields.push("featured = ?");
+    values.push(body.featured ? 1 : 0);
   }
 
   if (!fields.length) return NextResponse.json({ error: "no fields" }, { status: 400 });

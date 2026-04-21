@@ -23,6 +23,7 @@ export async function POST(req: Request) {
   const description = String((body as any).description || "").trim() || null;
   const imageUrl = String((body as any).image_url || "").trim();
   const linkUrl = String((body as any).link_url || "").trim() || null;
+  const featured = (body as any).featured ? 1 : 0;
 
   if (!DIRECTIONS.some((d) => d.slug === direction)) {
     return NextResponse.json({ error: "Неизвестное направление" }, { status: 400 });
@@ -44,10 +45,10 @@ export async function POST(req: Request) {
 
   const info = db
     .prepare(
-      `INSERT INTO cases (direction, type_slug, type_title, title, description, image_url, link_url, position)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+      `INSERT INTO cases (direction, type_slug, type_title, title, description, image_url, link_url, position, featured)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
-    .run(direction, typeSlug, typeTitle, title, description, imageUrl, linkUrl, positionRow.p);
+    .run(direction, typeSlug, typeTitle, title, description, imageUrl, linkUrl, positionRow.p, featured);
 
   const created = db.prepare("SELECT * FROM cases WHERE id = ?").get(info.lastInsertRowid) as
     | Record<string, any>

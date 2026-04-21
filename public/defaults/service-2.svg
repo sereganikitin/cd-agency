@@ -19,8 +19,8 @@
     <path d="M700,0 L700,600"/>
   </g>
   <g opacity="0.95">
-    <rect x="300" y="200" width="200" height="200" fill="#191B1D" stroke="#FCC7DE" stroke-width="1.5" opacity="0.95"/>
+    <rect x="300" y="200" width="200" height="200" fill="#191B1D" stroke="#FF8ABD" stroke-width="1.5" opacity="0.95"/>
     <rect x="340" y="240" width="120" height="120" fill="#FAFAF7"/>
-    <circle cx="400" cy="300" r="10" fill="#FCC7DE"/>
+    <circle cx="400" cy="300" r="10" fill="#FF8ABD"/>
   </g>
 </svg>

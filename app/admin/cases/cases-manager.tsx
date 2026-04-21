@@ -274,6 +274,7 @@ function CaseRow({
     if (draft.description !== c.description) patch.description = draft.description;
     if (draft.image_url !== c.image_url) patch.image_url = draft.image_url;
     if (draft.link_url !== c.link_url) patch.link_url = draft.link_url;
+    if (draft.featured !== c.featured) patch.featured = draft.featured;
 
     if (Object.keys(patch).length > 0) {
       const updated = await onUpdate(c.id, patch);
@@ -378,6 +379,16 @@ function CaseRow({
             />
           </label>
 
+          <label className="flex items-center gap-3 cursor-pointer select-none rounded-xl border border-white/15 bg-midnight/60 px-3 py-3">
+            <input
+              type="checkbox"
+              checked={!!draft.featured}
+              onChange={(e) => setDraft((x) => ({ ...x, featured: e.target.checked ? 1 : 0 }))}
+              className="h-4 w-4 accent-brand"
+            />
+            <span className="text-sm">Выводить на главную (карусель)</span>
+          </label>
+
           <div className="flex gap-2 pt-2">
             <button
               onClick={save}
@@ -403,11 +414,18 @@ function CaseRow({
 
   return (
     <li className="overflow-hidden rounded-xl border border-white/10 bg-midnight/40">
-      <img src={c.image_url} alt={c.title} className="aspect-[4/3] w-full object-cover" />
+      <div className="relative">
+        <img src={c.image_url} alt={c.title} className="aspect-[4/3] w-full object-cover" />
+        {c.featured ? (
+          <span className="absolute left-3 top-3 rounded-full bg-brand px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.18em] text-midnight">
+            На главной
+          </span>
+        ) : null}
+      </div>
       <div className="space-y-2 p-4">
         <div className="flex items-center gap-2">
           <span className="chip !text-[10px] !py-0.5">{d?.title || c.direction}</span>
-          <span className="chip !text-[10px] !py-0.5 border-ember/40 text-ember">{c.type_title}</span>
+          <span className="chip !text-[10px] !py-0.5 border-brand/40 text-brand">{c.type_title}</span>
         </div>
         <div className="font-medium">{c.title}</div>
         {c.description && <p className="text-sm text-white/60 line-clamp-2">{c.description}</p>}
